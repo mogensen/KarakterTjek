@@ -1,0 +1,2 @@
+## Crontab example 
+15 08 * * * sh DIR/karakterTjek.sh

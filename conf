@@ -1,0 +1,18 @@
+# ========== Config ==========
+
+## Student card number
+USERNAME=""       
+
+## Password
+PASSWORD=""    
+
+## Number to send sms to
+PHONE=""          
+
+## Mail to send info to
+MAIL=""   
+
+# ========== Permanent files ==========
+
+OUTPUT=$DIR/output.txt
+LASTLOG=$DIR/LastRun.log
