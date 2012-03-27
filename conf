@@ -1,16 +1,16 @@
 # ========== Config ==========
 
 ## Student card number
-USERNAME=""       
+USERNAME=""
 
 ## Password
-PASSWORD=""    
+PASSWORD=""
 
 ## Number to send sms to
-PHONE=""          
+PHONE=""
 
 ## Mail to send info to
-MAIL=""   
+MAIL=""
 
 # ========== Permanent files ==========
 
