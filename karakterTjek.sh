@@ -9,9 +9,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . $DIR/conf
 
 # ========== Temporary files ==========
-OLD_OUTPUT=`mktemp ` || exit 1
-COOKIE=`mktemp ` || exit 1
-TEMPHTML=`mktemp `".html" || exit 1
+OLD_OUTPUT=`mktemp /tmp/karakter_Old.XXXXXX` || exit 1
+COOKIE=`mktemp /tmp/karakter_Cookie.XXXXXX` || exit 1
+TEMPHTML=`mktemp /tmp/karakter_Cookie.XXXXXX`".html" || exit 1
 
 INDEXFILE="https://stadssb.au.dk/SBSTADSC1P/sb/index.jsp"
 
@@ -30,7 +30,7 @@ POSTTOKEN="brugernavn="$USERNAME"&adgangskode="$PASSWORD"&lang=null&submit_actio
 ## Get grads
 /usr/bin/curl -s -L -e $INDEXFILE -c $COOKIE -b $COOKIE "https://stadssb.au.dk/SBSTADSC1P/sb/resultater/studresultater.jsp" > $TEMPHTML
 ## Parse grads html file througn lynx
-/usr/bin/lynx -dump -assume_charset=utf-8 -display_charset=utf-8 $TEMPHTML | /bin/sed 's/^[ \t]*//;s/[ \t]*$//' > $OUTPUT
+/usr/local/bin/lynx -dump -assume_charset=utf-8 -display_charset=utf-8 $TEMPHTML | /usr/bin/sed 's/^[ \t]*//;s/[ \t]*$//' > $OUTPUT
 
 cat $OUTPUT
 
@@ -41,13 +41,13 @@ then
 	echo "Der er blevet lavet en ændring på hjemmesiden for karakterer" >> $LASTLOG
 
 	DIFF="$(/usr/bin/diff -w -B -i -I meta -I Genereret $OLD_OUTPUT $OUTPUT | grep '>'  \
-	| sed 's/^>//'   \
-	| sed 's/\s*$//g'  \
-	| sed 's/\.0$//g'  \
-	| sed 's/\([A-F]\)*\s*\([0-9]\)*$//g'  \
-	| sed 's/\([0-9]\)\([0-9]\)\.\([0-9]\)\([0-9]\)\.\([0-9]\)\([0-9]\)\([0-9]\)\([0-9]\)//g'  \
-	| sed 's/^\s*//g'  \
-	| tr -d '\n')"
+	| /usr/bin/sed 's/^>//'   \
+	| /usr/bin/sed 's/\s*$//g'  \
+	| /usr/bin/sed 's/\.0$//g'  \
+	| /usr/bin/sed 's/\([A-F]\)*\s*\([0-9]\)*$//g'  \
+	| /usr/bin/sed 's/\([0-9]\)\([0-9]\)\.\([0-9]\)\([0-9]\)\.\([0-9]\)\([0-9]\)\([0-9]\)\([0-9]\)//g'  \
+	| /usr/bin/sed 's/^\s*//g'  \
+	| /usr/bin/tr -d '\n')"
 
 	echo "$DIFF" | /usr/bin/mail -s "Ændringer på karaktersiden" $MAIL
 
